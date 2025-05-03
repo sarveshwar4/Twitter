@@ -1,6 +1,6 @@
-const {TweetService} = require('../services/index');
+import {TweetService} from '../services/index.js'
 const tweetService = new TweetService();
-const create = async(req, res)=>{
+export const create = async(req, res)=>{
     try {
         const response = await tweetService.createTweet(req.body);
         return res.status(201).json({
@@ -18,5 +18,3 @@ const create = async(req, res)=>{
         });
     }
 };
-
-module.exports = {create};
