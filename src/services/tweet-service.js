@@ -1,50 +1,80 @@
-const { TweetRepository } = require("../repository/index");
-const hashaTags = require("../models/hashtag");
-const Hashtag = require("../models/hashtag");
-
+const { TweetRepository, HashTagRepository } = require("../repository/index");
 class TweetService {
   constructor() {
     this.tweetRepository = new TweetRepository();
+    this.hashTagRepository = new HashTagRepository();
   }
-
   async createTweet(data) {
-    const content = data.content;
-    let tag = content.match(/#[a-zA-Z0-9]+/g);
-    tag = tag.map((element) => element.substring(1));
-    const tweet = await this.tweetRepository.create(data);
-    const hashTag = await hashaTags.find({ title: tag });
-    const aleradyExistTag = [];
-    hashTag.forEach((tg) => {
-      aleradyExistTag.push(tg.title);
-    });
-    tag.forEach(async (tg) => {
-        const exist = aleradyExistTag.includes(tg);
-       console.log(exist)
-      if (!exist) {
-        const hashTagCreation = await Hashtag.create({ title: tg });
-        console.log(hashTagCreation);
-      }
-    });
-    const allrequiredTags = await hashaTags.find({ title: tag}).lean();
-    // saving hashTagId inside the twet
-    allrequiredTags.forEach(tag => {
-        tweet.hashTag.push(tag._id);
-    });
-    await tweet.save();
-
-    // saving the tweetid to coresponding hashTags documents..
-    tag.forEach(async (tg)=>{
-        const reqTag = await Hashtag.findOne({ title: tg });
-        if (reqTag) {
-            reqTag.tweet.push(tweet._id);
-            await reqTag.save();
-            console.log(reqTag);
-        } 
-    })
-    // bullInsert,
-    // insert those hashTag those are not present
-    // based on this insert the hashtag id inside the twee
+    try {
+      const content = data.content;
+      const tags = content
+        .match(/#[a-zA-Z0-9]+/g)
+        .map((tg) => tg.substring(1).toLowerCase());
+      const tweet = await this.tweetRepository.create(data);
+      const alreadyPresentTags = await this.hashTagRepository.getByName(tags);
+      const title = alreadyPresentTags.map((data) => data.title);
+      console.log("hello ji",alreadyPresentTags);
+      const newTags = tags.filter((tag)=>!title.includes(tag));
+      const finalInsertingTags = newTags.map(tag => ({
+        title: tag,
+        tweet: [tweet.id],
+      }));      
+      const bulkInsert = await this.hashTagRepository.bulkInsert(finalInsertingTags);
+      console.log("here we inserting in bulk",bulkInsert);
+      alreadyPresentTags.forEach((tag) => {
+        tag.tweet.push(tweet.id);
+        tag.save();
+      });
+      return tweet;
+    } catch (error) {
+      console.log('SomeThing Went Wrong in Service layer');
+      throw error;
+    }
   }
 }
 
 module.exports = TweetService;
+
+
+
+
+
+
+  // async createTweet(data) {
+  //   const content = data.content;
+  //   let tag = content.match(/#[a-zA-Z0-9]+/g);
+  //   tag = tag.map((element) => element.substring(1));
+  //   const tweet = await this.tweetRepository.create(data);
+  //   const hashTag = await hashaTags.find({ title: tag });
+  //   const aleradyExistTag = [];
+  //   hashTag.forEach((tg) => {
+  //     aleradyExistTag.push(tg.title);
+  //   });
+  //   tag.forEach(async (tg) => {
+  //       const exist = aleradyExistTag.includes(tg);
+  //      console.log(exist)
+  //     if (!exist) {
+  //       const hashTagCreation = await Hashtag.create({ title: tg });
+  //       console.log(hashTagCreation);
+  //     }
+  //   });
+  //   const allrequiredTags = await hashaTags.find({ title: tag}).lean();
+  //   // saving hashTagId inside the twet
+  //   allrequiredTags.forEach(tag => {
+  //       tweet.hashTag.push(tag._id);
+  //   });
+  //   await tweet.save();
+
+  //   // saving the tweetid to coresponding hashTags documents..
+  //   tag.forEach(async (tg)=>{
+  //       const reqTag = await Hashtag.findOne({ title: tg });
+  //       if (reqTag) {
+  //           reqTag.tweet.push(tweet._id);
+  //           await reqTag.save();
+  //           console.log(reqTag);
+  //       }
+  //   })
+  //   // bullInsert,
+  //   // insert those hashTag those are not present
+  //   // based on this insert the hashtag id inside the twee
+  // }
