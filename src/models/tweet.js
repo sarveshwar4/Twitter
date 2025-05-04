@@ -5,6 +5,12 @@ const tweetSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  likes:[
+    {
+      type:mongoose.Schema.ObjectId,
+      ref:'Like'
+    }
+  ]
 });
 
 const Tweets = mongoose.model("Tweets", tweetSchema);

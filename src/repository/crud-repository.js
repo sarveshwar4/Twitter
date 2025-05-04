@@ -11,9 +11,10 @@ class CrudRepository {
             throw error;
         }
     }
-    async get(id){
+    async get(data){
         try {
-            const response = await this.model.findById(id);
+            console.log(data)
+            const response = await this.model.findOne(data);
             return response;
         } catch (error) {
             console.log('Something went wromg in crud layer');
@@ -32,8 +33,19 @@ class CrudRepository {
             throw error;
         }
     }
+
+    async getAll(){
+        try {
+            const response = await this.model.find({});
+            return response;
+        } catch (error) {
+            console.log('Something went wromg in crud layer');
+            throw error;
+        }
+    }
     async delete(id){
         try {
+            console.log('here is delete', id)
             const response = await this.model.findByIdAndDelete(id);
             return response;
         } catch (error) {

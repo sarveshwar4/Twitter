@@ -13,7 +13,17 @@ class TweetRepository{
 
     async get(id){
         try {
-            const response = await Tweet.findById(id);
+            const response = await Tweet.findById(id).populate('likes', ['userId']);
+            console.log("hello ji",response)
+            return response;
+        } catch (error) {
+            console.log('Something went wromg in repo layer');
+            throw error;
+        }
+    }
+    async getAll(){
+        try {
+            const response = await Tweet.find({});
             return response;
         } catch (error) {
             console.log('Something went wromg in repo layer');
