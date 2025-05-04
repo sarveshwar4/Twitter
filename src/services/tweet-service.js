@@ -13,14 +13,12 @@ class TweetService {
       const tweet = await this.tweetRepository.create(data);
       const alreadyPresentTags = await this.hashTagRepository.getByName(tags);
       const title = alreadyPresentTags.map((data) => data.title);
-      console.log("hello ji",alreadyPresentTags);
       const newTags = tags.filter((tag)=>!title.includes(tag));
       const finalInsertingTags = newTags.map(tag => ({
         title: tag,
         tweet: [tweet.id],
       }));      
-      const bulkInsert = await this.hashTagRepository.bulkInsert(finalInsertingTags);
-      console.log("here we inserting in bulk",bulkInsert);
+      await this.hashTagRepository.bulkInsert(finalInsertingTags);
       alreadyPresentTags.forEach((tag) => {
         tag.tweet.push(tweet.id);
         tag.save();
