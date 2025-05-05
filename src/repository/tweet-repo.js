@@ -13,7 +13,7 @@ class TweetRepository{
 
     async get(id){
         try {
-            const response = await Tweet.findById(id).populate('likes', ['userId']);
+            const response = await Tweet.findById(id).populate('likes');
             console.log("hello ji",response)
             return response;
         } catch (error) {

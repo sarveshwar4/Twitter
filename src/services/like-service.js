@@ -12,7 +12,6 @@ class LikeService{
             if(modelName == 'Tweets'){
             //extract the tweet 
             var likeable = await this.tweetRepository.get(modelid);
-            console.log("there is likeable instance of tweet",likeable)
             }
             else if(modelName == 'Comment'){
                 // todo
@@ -38,7 +37,6 @@ class LikeService{
                     likeable:modelid,
                     userId:userId
                 });
-                console.log(like)
                 likeable.likes.push(like._id);
                 likeable.save();
                 var isLike = true;

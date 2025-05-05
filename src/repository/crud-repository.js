@@ -13,7 +13,6 @@ class CrudRepository {
     }
     async get(data){
         try {
-            console.log(data)
             const response = await this.model.findOne(data);
             return response;
         } catch (error) {
@@ -45,7 +44,6 @@ class CrudRepository {
     }
     async delete(id){
         try {
-            console.log('here is delete', id)
             const response = await this.model.findByIdAndDelete(id);
             return response;
         } catch (error) {
