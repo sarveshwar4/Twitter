@@ -10,7 +10,7 @@ const hashTagSchema  = new mongoose.Schema({
         ref:'Tweets'
      }
    ]
-});
+}, { timestamps: true });
 
 const Hashtag = mongoose.model('HashTag', hashTagSchema);
 
