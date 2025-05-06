@@ -25,11 +25,11 @@ const CommentSchema = new mongoose.Schema({
     ref:'Comment'
   }
   ],
-  isPinned:{
+  isMessagePinned:{
     type:Boolean,
     default:false,
   },
 },{ timestamps: true });
 
 const Comment = mongoose.model("Comment", CommentSchema);
-export default Comment
+export default Comment;

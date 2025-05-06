@@ -43,7 +43,22 @@ class TweetService {
       });
       const response = await this.tweetRepository(tweet._id);
       return response;
-    } catch (error) {}
+    } catch (error) {
+      console.log("SomeThing Went Wrong in Service layer");
+      throw error;
+    }
+  }
+
+
+  async getTweet(id) {
+    try {
+      console.log(id);
+      const tweet = await this.tweetRepository.get(id);
+      return tweet;
+    } catch (error) {
+      console.log("SomeThing Went Wrong in Service layer");
+      throw error;
+    }
   }
 }
 
