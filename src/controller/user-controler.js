@@ -20,6 +20,25 @@ const create = async(req, res)=>{
    
 };
 
+const signIn = async(req, res) =>{
+    try {
+        const response = await userService.signIn(req.body);
+        return res.status(201).json({
+            data:response,
+            success:true,
+            message:'user is loggedIn Successfully',
+            err:{},
+        });
+    } catch (error) {
+        return res.status(500).json({
+            data:{},
+            success:false,
+            message:'Something went wrong',
+            err:error,
+        });
+    }
+}
+
 const deleteUser = async(req, res)=>{
     try {
         const response = await userService.delete(req.params.id);
@@ -81,4 +100,5 @@ export default {
     deleteUser,
     getALl,
     get,
+    signIn
   };

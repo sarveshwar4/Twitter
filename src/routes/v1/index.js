@@ -3,16 +3,19 @@ import {create, deleteTweet, getTweet} from '../../controller/tweet-controller.j
 import {toggleLike} from '../../controller/like-controller.js';
 import {createComment} from '../../controller/comment-controller.js'
 import userController from '../../controller/user-controler.js';
+import passport from 'passport';
+import {authenticate} from '../../middleware/Authenticate.js'
 const router = express.Router();
 
 // user
 router.post('/user/create', userController.create);
+router.post('/signIn', userController.signIn);
+router.get('/user/get/:id', userController.get);
 router.delete('/user/delete/:id', userController.deleteUser);
 router.get('/user/getAll', userController.getALl);
-router.get('/user/get/:id', userController.get);
 
 // tweet creation and deletion
-router.post('/create',create);
+router.post('/create',authenticate,create);
 router.get('/tweet/:id', getTweet);
 // router.post('/get',create);
 router.delete('/delete/:id',deleteTweet);
