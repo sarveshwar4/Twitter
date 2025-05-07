@@ -24,7 +24,6 @@ class CommentService{
                 userId:userId,
                 commentable:modelId,
             });
-            console.log('hello i am sarveshwar', newComment)
             commentable.comment.push(newComment._id);
             commentable.save();
             return commentable;

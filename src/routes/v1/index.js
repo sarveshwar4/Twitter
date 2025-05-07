@@ -21,7 +21,7 @@ router.get('/tweet/:id', getTweet);
 router.delete('/delete/:id',deleteTweet);
 
 // like or removeLike on the tweet
-router.post('/like/toggle', toggleLike);
+router.post('/like/toggle',authenticate, toggleLike);
 
-router.post('/comment', createComment);
+router.post('/comment',authenticate, createComment);
 export default router;

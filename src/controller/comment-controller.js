@@ -5,7 +5,7 @@ export const createComment = async (req, res) => {
     const response = await commentService.createCommment(
       req.query.modelType,
       req.query.modelId,
-      req.body.userId,
+      req.user._id,
       req.body.content
     );
     return res.status(201).json({

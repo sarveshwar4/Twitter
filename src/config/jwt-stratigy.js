@@ -12,18 +12,16 @@ var opts = {
 export const passportAuth = (passport) => {
   passport.use(new JwtStrategy(opts, async function (jwt_payload, done) {
         try {
-      const user = await User.findOne({email : jwt_payload.email});
-      console.log("User Found:", user);
+          const user = await User.findOne({ email: jwt_payload.email });
+          if (!user) {
+            console.log("User not found");
+            return done(null, false);
+          }
 
-      if (!user) {
-        console.log("User not found");
-        return done(null, false);
-      }
-
-      return done(null, user);
-    } catch (error) {
-      console.error("Error in JWT Strategy:", error);
-      return done(error, false);
-    }
+          return done(null, user);
+        } catch (error) {
+          console.error("Error in JWT Strategy:", error);
+          return done(error, false);
+        }
   }));
 };
