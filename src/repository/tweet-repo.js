@@ -36,9 +36,9 @@ class TweetRepository {
       throw error;
     }
   }
-  async getAll() {
+  async getAll(limit, offset) {
     try {
-      const response = await Tweet.find({});
+      const response = await Tweet.find().skip(offset).limit(limit);
       return response;
     } catch (error) {
       console.log("Something went wromg in repo layer");
