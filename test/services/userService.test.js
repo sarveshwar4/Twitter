@@ -19,7 +19,6 @@ describe("set of test for creating in service", () => {
 });
 
 describe("signIn method", () => {
-    
   test("for signIn the user", async () => {
     const data = {
       email: "s@b.com",
@@ -29,9 +28,10 @@ describe("signIn method", () => {
       .spyOn(UserService.prototype, "getByEmail")
       .mockImplementation(() => {});
     const userService = new UserService();
-    await expect(userService.signIn(data)).rejects.toThrow("Invalid Credentials");
+    await expect(userService.signIn(data)).rejects.toThrow(
+      "Invalid Credentials"
+    );
   });
-  
 
   test("should throw an error if password is invalid", async () => {
     const data = {
@@ -39,7 +39,6 @@ describe("signIn method", () => {
       password: "12345",
     };
 
-    
     const mockUser = {
       comparePassword: jest.fn().mockResolvedValue(false),
     };

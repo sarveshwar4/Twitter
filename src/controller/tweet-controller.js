@@ -38,8 +38,6 @@ export const deleteTweet = async(req, res)=>{
         });
     } 
 };
-
-
 export const getTweet = async(req, res)=>{
     try {
         const response = await tweetService.getTweet(req.params.id);
