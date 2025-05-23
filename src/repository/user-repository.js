@@ -4,9 +4,9 @@ class UserRepository extends CrudRepository {
   constructor() {
     super(User);
   }
-  async get(data) {
+  async get(id) {
     try {
-      const response = await User.findById(data);
+      const response = await User.findById(id);
       return response;
     } catch (error) {
       console.log("Something went wromg in crud layer");

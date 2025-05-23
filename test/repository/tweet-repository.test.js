@@ -15,7 +15,7 @@ describe("test for creating a tweets", () => {
     const tweetRepo = new TweetRepository();
     const tweet = await tweetRepo.create(data);
     expect(spy).toHaveBeenCalled();
-    expect(tweet.content).toBe(data.content);
+    expect(tweet.content).toBe(data.content);// basically it is for the single value matching, not able to match the whole object
     expect(tweet.createdAt).toBeDefined();
   });
 

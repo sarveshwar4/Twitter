@@ -16,7 +16,10 @@ const tweetSchema = new mongoose.Schema({
       type:mongoose.Schema.ObjectId,
       ref:'Comment'
     }
-  ]
+  ],
+  userId:{
+    type:mongoose.Schema.ObjectId
+  }
 },  { timestamps: true });
 
 const Tweets = mongoose.model("Tweets", tweetSchema);

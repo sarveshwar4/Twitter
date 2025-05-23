@@ -12,7 +12,6 @@ class LikeService{
     async toggleLike(modelid, modelName, userId){
          try {
             if(modelName == 'Tweets'){
-            //extract the tweet 
             var likeable = await this.tweetRepository.get(modelid);
             }
             else if(modelName == 'Comment'){

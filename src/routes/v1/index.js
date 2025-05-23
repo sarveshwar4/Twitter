@@ -3,8 +3,8 @@ import {create, deleteTweet, getTweet} from '../../controller/tweet-controller.j
 import {toggleLike} from '../../controller/like-controller.js';
 import {createComment} from '../../controller/comment-controller.js'
 import userController from '../../controller/user-controler.js';
-import passport from 'passport';
 import {authenticate} from '../../middleware/Authenticate.js'
+import connectionController from '../../controller/connection-controller.js';
 const router = express.Router();
 
 // user
@@ -24,4 +24,8 @@ router.delete('/delete/:id',deleteTweet);
 router.post('/like/toggle',authenticate, toggleLike);
 
 router.post('/comment',authenticate, createComment);
+
+
+// follow unfollow setup
+router.post('/user/send/:status/:fromUserId/:toUserId',connectionController.sendRequest);
 export default router;

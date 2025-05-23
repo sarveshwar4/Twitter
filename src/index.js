@@ -14,5 +14,5 @@ passportAuth(passport);
 app.listen(3000, async () => {
     console.log("Server is listning");
     await connectDB();
-   
+   console.log("db is connected...")
 });
