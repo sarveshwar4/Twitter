@@ -25,7 +25,8 @@ router.post('/like/toggle',authenticate, toggleLike);
 
 router.post('/comment',authenticate, createComment);
 
+// connections apis
+router.post('/connections/send/:fromUserId/:toUserId/:status', connectionController.sendRequest);
+router.post('/connections/review/:connectionId/:userId/:status', connectionController.reviewRequest);
 
-// follow unfollow setup
-router.post('/user/send/:status/:fromUserId/:toUserId',connectionController.sendRequest);
 export default router;

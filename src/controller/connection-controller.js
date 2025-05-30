@@ -28,6 +28,29 @@ const sendRequest = async (req, res) => {
     });
   }
 };
+
+const reviewRequest = async(req, res)=>{
+  try{
+    const {userId, connectionId, status} = req.params;
+    console.log(userId, connectionId, status)
+    const response = await connectService.acceptOrBlockRequest(connectionId, userId, status);
+    return res.status(200).json({
+      data:response,
+      success:true,
+      message:`request is ${response.status} successfully`,
+      err:{},
+    });
+  }catch(error){
+      return res.status(500).json({
+      data:{},
+      success:true,
+      message:"Something went wrong",
+      err:error.message
+    });
+  }
+}
 export default {
   sendRequest,
+  reviewRequest
 };
+

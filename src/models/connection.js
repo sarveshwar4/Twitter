@@ -11,7 +11,7 @@ const connectionSchema = new mongoose.Schema({
   status: {
     type: String,
     required: true,
-    enum: ["pending", "accept", "Block"],
+    enum: ["pending", "ignore", "accepted", "blocked"],
   }
 });
 const Connection = mongoose.model('Connection', connectionSchema);
