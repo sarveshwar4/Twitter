@@ -17,6 +17,30 @@ class ConnectionRepository extends CrudRepository {
       throw error;
     }
   }
+  async getAllFollowers(toUserId){
+      try {
+        const response = await Connection.find({
+          toUserId:toUserId,
+          status: { $in: ["pending", "accepted"] },
+        });
+        return response;
+      } catch (error) {
+        console.log("Something went wrong in repo layer");
+        throw error;
+      }
+  }
+  async getAllfollowing(userId){
+    try {
+      const response = await Connection.find({
+      fromUserId : userId,
+      status: { $in: ["pending", "accepted"] },
+    });
+    return response;
+    } catch (error) {
+       console.log("Something went wrong in repo layer");
+       throw error;
+    }
+  }
   async get(id) {
     try {
       const response = await Connection.findById(id);

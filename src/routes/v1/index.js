@@ -28,5 +28,6 @@ router.post('/comment',authenticate, createComment);
 // connections apis
 router.post('/connections/send/:fromUserId/:toUserId/:status', connectionController.sendRequest);
 router.post('/connections/review/:connectionId/:userId/:status', connectionController.reviewRequest);
-
+router.get('/connection/following/:userId', connectionController.following);
+router.get('/connection/follower/:userId', connectionController.follower);
 export default router;

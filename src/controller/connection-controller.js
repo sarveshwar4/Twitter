@@ -49,8 +49,50 @@ const reviewRequest = async(req, res)=>{
     });
   }
 }
+const  following = async(req, res)=>{
+    try {
+    const userId = req.params.touserId;  
+    console.log(userId)
+    const response = await connectService.following(userId);
+    return res.status(200).json({
+      data:response,
+      success:true,
+      message:`request is ${response.status} successfully`,
+      err:{},
+    });
+    } catch (error) {
+      return res.status(500).json({
+      data:{},
+      success:true,
+      message:"Something went wrong",
+      err:error,
+    });
+    }
+}
+const  follower = async(req, res)=>{
+    try {
+    const userId = req.params.userId;  
+    console.log(userId);
+    const response = await connectService.follower(userId);
+    return res.status(200).json({
+      data:response,
+      success:true,
+      message:`request is ${response.status} successfully`,
+      err:{},
+    });
+    } catch (error) {
+      return res.status(500).json({
+      data:{},
+      success:true,
+      message:"Something went wrong",
+      err:error,
+    });
+    }
+}
 export default {
   sendRequest,
-  reviewRequest
+  reviewRequest,
+  following,
+  follower
 };
 

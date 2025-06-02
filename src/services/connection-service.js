@@ -37,7 +37,6 @@ class ConnectionService {
       console.log(status)
       if(!['accepted', 'blocked'].includes(status)) throw new Error('status is not valid');
       const connection = await this.connectionRepository.getConnectionsData(connectionId, userId);
-      console.log(connection)
       if (!connection) throw new Error("connection Id is not valid");
       connection.status = status;
       await connection.save();
@@ -51,13 +50,21 @@ class ConnectionService {
   // ckeck who can follow me
   async follower(userId){
     try {
-      // fetch those connecction dooc jiska touserid mein hun aur status ya to accept ho ye pending ho
+      const followers = await this.connectionRepository.getAllFollowers(userId);
+      return followers;
     } catch (error) {
-      
+      console.log('something went wrong in service layer');
+      throw error;
     }
   }
   async following(userId){
-    // here in the following list fetch those user jiska fromUserId mein hun aur status ya to pending/accept
+    try{
+    const followings = await this.connectionRepository.getAllfollowing(userId);
+    return followings;
+    }catch(error){
+      console.log('something went wrong in service layer');
+      throw error;
+    }
   }
 }
 
